@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Post extends Model
 {
@@ -20,5 +22,23 @@ class Post extends Model
     protected $appends = ['is_liked', 'likes_count'];
 
     protected $with = ['likedBy'];
-    
+
+
+    // Relations
+
+    /**
+     * Get the user that owns the post.
+     */
+    public function author(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * Get the users that liked the post.
+     */
+    public function likedBy(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'post_likes');
+    }
 }
