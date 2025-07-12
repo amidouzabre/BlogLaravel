@@ -101,4 +101,19 @@ class PostController extends Controller
         return redirect()->back()->with('success', 'Post deleted successfully');
     }
 
+
+    public function like(Post $post)
+    {
+        $user = Auth::user();
+        if($post->likedBy()->where('user_id', $user->id)->exists()) {
+            $post->likedBy()->detach($user);
+            $message = 'Post unliked successfully';
+        } else {
+            $post->likedBy()->attach($user);
+            $message = 'Post liked successfully';
+        }
+
+        return redirect()->back()->with('success', $message);
+    }
+
 }
