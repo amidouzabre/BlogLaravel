@@ -5,9 +5,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('welcome');
-})->name('home');
+Route::get('/', [PostController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function(){
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
