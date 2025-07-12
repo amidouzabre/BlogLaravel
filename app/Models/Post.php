@@ -17,5 +17,8 @@ class Post extends Model
         'user_id',
     ];
 
+    protected $appends = ['is_liked', 'likes_count'];
+
+    protected $with = ['likedBy'];
     
 }
