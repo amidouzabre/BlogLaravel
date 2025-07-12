@@ -47,4 +47,12 @@ class PostController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Post created successfully');
     }
+
+
+    public function show(Post $post): Response
+    {
+        return Inertia::render('Posts/Show', [
+            'post' => $post->load('author'),
+        ]);
+    }
 }
