@@ -55,4 +55,11 @@ class PostController extends Controller
             'post' => $post->load('author'),
         ]);
     }
+
+    public function edit(Post $post): Response
+    {
+        return Inertia::render('Posts/Edit', [
+            'post' => $post,
+        ]);
+    }
 }
