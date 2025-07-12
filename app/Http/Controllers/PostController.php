@@ -89,4 +89,16 @@ class PostController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Post updated successfully');
     }
+
+
+    public function destroy(Post $post)
+    {
+        if($post->image) {
+            Storage::disk('public')->delete($post->image);
+        }
+        $post->delete();
+
+        return redirect()->back()->with('success', 'Post deleted successfully');
+    }
+
 }
