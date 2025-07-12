@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -61,5 +62,31 @@ class PostController extends Controller
         return Inertia::render('Posts/Edit', [
             'post' => $post,
         ]);
+    }
+
+    public function update(Request $request, Post $post)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:posts,slug',
+            'description' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,gif,svg|max:2048',
+        ]);
+
+        $post->title = $validated['title'];
+        $post->slug = $validated['slug'];
+        $post->description = $validated['description'];
+        
+        if($request->hasFile('image')) {
+            if($post->image) {
+                Storage::disk('public')->delete($post->image);
+            }
+            $path = $request->file('image')->store('posts', 'public');
+            $post->image = $path;
+        }
+
+        $post->save();
+
+        return redirect()->route('dashboard')->with('success', 'Post updated successfully');
     }
 }
