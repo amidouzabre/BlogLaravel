@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
@@ -40,5 +41,24 @@ class Post extends Model
     public function likedBy(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'post_likes');
+    }
+
+
+    // Getters
+
+    /**
+     * Get the is liked attribute.
+     */
+    public function getIsLikedAttribute(): bool
+    {
+        return Auth::check() && $this->likedBy->contains(Auth::id());
+    }
+
+    /**
+     * Get the likes count attribute.
+     */
+    public function getLikesCountAttribute(): int
+    {
+        return $this->likedBy->count();
     }
 }
