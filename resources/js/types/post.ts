@@ -30,6 +30,7 @@ export interface DashboardProps extends PageProps {
 }
 
 export interface CreateProps extends PageProps {
+    post: Post;
 }
 
 export interface EditProps extends PageProps {

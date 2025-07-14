@@ -41,3 +41,16 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+
+export interface PageProps {
+    auth: Auth;
+    breadcrumbs: BreadcrumbItem[];
+    canCreatePost: boolean;
+    canDeletePost: boolean;
+    canEditPost: boolean;
+    canViewPost: boolean;
+    name: string;
+    quote: { message: string; author: string };
+    ziggy: Config & { location: string };
+}
