@@ -24,3 +24,24 @@ export interface PostFormData {
     description: string;
     image: File | null;
 }
+
+export interface DashboardProps extends PageProps {
+    userPosts: Post[];
+}
+
+export interface CreateProps extends PageProps {
+}
+
+export interface EditProps extends PageProps {
+    post: Post;
+}
+
+export interface ShowProps extends PageProps {
+    post: Post;
+}
+
+export interface Props {
+    posts: Post[];
+    showAuthor?: boolean;
+    canDelete?: boolean;
+}
